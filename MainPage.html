@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MY PIXEL WORLD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<a href="games.html">当前窗口跳转（默认）</a>
+<a href="games.html" target="_blank">新标签页打开</a>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a2e;color:#eee;font-family:"ZCOOL KuaiLe","Microsoft YaHei",sans-serif;line-height:1.8}
+.wrap{max-width:860px;margin:0 auto;padding:40px 20px}
+.px{font-family:"Press Start 2P",monospace}
+.hero{text-align:center;padding:70px 0 50px}
+.hero h1{font-size:26px;color:#ffd93d;text-shadow:4px 4px 0 #b1060f;letter-spacing:2px;margin-bottom:24px}
+.blink{animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero .sub{font-size:16px;color:#8ac926;margin-bottom:40px}
+.avatar{width:96px;height:96px;margin:0 auto 30px;background:#0f0f1a;border:4px solid #ffd93d;display:flex;align-items:center;justify-content:center;font-size:52px;image-rendering:pixelated}
+.card{background:#16213e;border:4px solid #0f3460;margin-bottom:26px;padding:26px 30px}
+.card:hover{border-color:#e94560;transition:border-color .2s}
+.card h2{font-size:14px;color:#4cc9f0;margin-bottom:14px}
+.tag{display:inline-block;background:#0f3460;color:#ffd93d;font-size:12px;padding:3px 10px;margin:3px 4px 3px 0;border:2px solid #1a1a2e}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.proj{background:#0f3460;padding:20px;border:3px solid transparent;cursor:pointer}
+.proj:hover{border-color:#ffd93d;transform:translateY(-3px);transition:all .2s}
+.proj h3{font-size:15px;color:#ffd93d;margin-bottom:8px}
+.proj p{font-size:13px;color:#aab}
+.proj .tag{margin-top:10px}
+a{color:#4cc9f0;text-decoration:none}
+a:hover{color:#ffd93d}
+footer{text-align:center;padding:30px 0;color:#556;font-size:13px}
+.heart{color:#e94560}
+@media(max-width:600px){.hero h1{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="avatar">🕹️</div>
+    <h1 class="px">MY PIXEL WORLD</h1>
+    <p class="sub">独立游戏开发中… 用 Godot 造像素世界</p>
+    <p class="px blink" style="font-size:12px;color:#e94560">PRESS START</p>
+  </section>
+
+  <section class="card">
+    <h2 class="px">▸ ABOUT ME</h2>
+    <p>你好！我是一名像素游戏爱好者，正在学习 Godot 引擎开发 2D 像素游戏。平时也喜欢折腾复古游戏模拟器（RetroArch / ES-DE）。</p>
+    <div>
+      <span class="tag">Godot</span>
+      <span class="tag">GDScript</span>
+      <span class="tag">像素画</span>
+      <span class="tag">复古游戏</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="px">▸ PROJECTS</h2>
+    <div class="grid">
+     <a class="proj" href="games.html">
+        <h3>🎮 我的像素游戏</h3>
+        <p>用 Godot 制作的第一款 2D 像素游戏，开发中…</p>
+        <span class="tag">Godot</span><span class="tag">像素</span>
+      </a>
+      <a class="proj" href="https://github.com/你的用户名/仓库2">
+        <h3>📺 游戏库启动器</h3>
+        <p>基于 Python 的局域网游戏库 Web 启动器。</p>
+        <span class="tag">Python</span><span class="tag">工具</span>
+      </a>
+      <a class="proj" href="https://lospec.com/">
+        <h3>🎨 调色板收藏</h3>
+        <p>做像素画时常用的复古调色板资源。</p>
+        <span class="tag">素材</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="px">▸ CONTACT</h2>
+    <p>
+      GitHub：<a href="https://github.com/你的用户名">@你的用户名</a><br>
+      B站：<a href="#">我的主页</a>
+    </p>
+  </section>
+
+  <footer>
+    <p class="px" style="font-size:10px">GAME OVER ? NO. CONTINUE…</p>
+    <p>Made with <span class="heart">♥</span> &amp; GitHub Pages</p>
+  </footer>
+
+</div>
+</body>
+</html>
