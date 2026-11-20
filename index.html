@@ -6,12 +6,23 @@
 <title>MY PIXEL WORLD</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-<a href="games.html">当前窗口跳转（默认）</a>
-<a href="games.html" target="_blank">新标签页打开</a>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#1a1a2e;color:#eee;font-family:"ZCOOL KuaiLe","Microsoft YaHei",sans-serif;line-height:1.8}
-.wrap{max-width:860px;margin:0 auto;padding:40px 20px}
+/* ========== 背景层：repeat 由 JS rAF 驱动 background-position ========== */
+.bg-layer{
+  position:fixed;inset:0; /*覆盖视口即可，repeat 背景天然无缝无需外扩*/
+  z-index:-1;pointer-events:none;
+  background-image:url('./Assets/BackGround/background_tiled.png');
+  background-repeat:repeat;
+  image-rendering:pixelated;
+}
+/*========== 遮罩层，防止背景太亮抢内容 ==========*/
+body{
+  background:#1a1a2e90; /*半透明色压暗纹理*/
+  color:#eee;font-family:"ZCOOL KuaiLe","Microsoft YaHei",sans-serif;line-height:1.8;
+  min-height:100vh;
+}
+.wrap{max-width:860px;margin:0 auto;padding:40px 20px;position:relative;z-index:1}
 .px{font-family:"Press Start 2P",monospace}
 .hero{text-align:center;padding:70px 0 50px}
 .hero h1{font-size:26px;color:#ffd93d;text-shadow:4px 4px 0 #b1060f;letter-spacing:2px;margin-bottom:24px}
@@ -19,7 +30,7 @@ body{background:#1a1a2e;color:#eee;font-family:"ZCOOL KuaiLe","Microsoft YaHei",
 @keyframes blink{50%{opacity:0}}
 .hero .sub{font-size:16px;color:#8ac926;margin-bottom:40px}
 .avatar{width:96px;height:96px;margin:0 auto 30px;background:#0f0f1a;border:4px solid #ffd93d;display:flex;align-items:center;justify-content:center;font-size:52px;image-rendering:pixelated}
-.card{background:#16213e;border:4px solid #0f3460;margin-bottom:26px;padding:26px 30px}
+.card{background:#16213e00;border:4px solid #0f3460;margin-bottom:26px;padding:26px 30px;backdrop-filter:blur(2px)}
 .card:hover{border-color:#e94560;transition:border-color .2s}
 .card h2{font-size:14px;color:#4cc9f0;margin-bottom:14px}
 .tag{display:inline-block;background:#0f3460;color:#ffd93d;font-size:12px;padding:3px 10px;margin:3px 4px 3px 0;border:2px solid #1a1a2e}
@@ -41,48 +52,53 @@ footer{text-align:center;padding:30px 0;color:#556;font-size:13px}
 
   <section class="hero">
     <div class="avatar">🕹️</div>
-    <h1 class="px">MY PIXEL WORLD</h1>
-    <p class="sub">独立游戏开发中… 用 Godot 造像素世界</p>
+    <h1 class="px" data-sfx="main">MY PIXEL WORLD</h1>
+    <p class="sub">Indie game dev in progress… Building pixel worlds with Godot</p>
+    <!--=====顶部控制条：音乐开关 + 音量滑块 =====-->
+    <div id="audio-bar" style="position:fixed;top:12px;right:12px;z-index:9999;display:flex;align-items:center;gap:8px;background:#0f3460ee;border:2px solid #ffd93d;padding:6px 10px">
+      <button id="music-toggle" class="px" style="background:none;border:none;color:#ffd93d;font-size:11px;cursor:pointer">🔊 ON</button>
+      <input id="vol-slider" type="range" min="0" max="100" value="80" style="width:80px;accent-color:#ffd93d;cursor:pointer">
+    </div>
     <p class="px blink" style="font-size:12px;color:#e94560">PRESS START</p>
   </section>
 
   <section class="card">
-    <h2 class="px">▸ ABOUT ME</h2>
-    <p>你好！我是一名像素游戏爱好者，正在学习 Godot 引擎开发 2D 像素游戏。平时也喜欢折腾复古游戏模拟器（RetroArch / ES-DE）。</p>
+    <h2 class="px" data-sfx="main">▸ ABOUT ME</h2>
+    <p>Hi! I'm a pixel art &amp; indie game enthusiast. Learning Godot to make 2D pixel games. Also tinker with retro console emulators (RetroArch / ES-DE) on the side.</p>
     <div>
       <span class="tag">Godot</span>
       <span class="tag">GDScript</span>
-      <span class="tag">像素画</span>
-      <span class="tag">复古游戏</span>
+      <span class="tag">Pixel Art</span>
+      <span class="tag">Retro Games</span>
     </div>
   </section>
 
   <section class="card">
-    <h2 class="px">▸ PROJECTS</h2>
+    <h2 class="px" data-sfx="main">▸ PROJECTS</h2>
     <div class="grid">
-     <a class="proj" href="games.html">
-        <h3>🎮 我的像素游戏</h3>
-        <p>用 Godot 制作的第一款 2D 像素游戏，开发中…</p>
-        <span class="tag">Godot</span><span class="tag">像素</span>
+     <a class="proj" href="games.html" data-sfx="sub">
+        <h3>🎮 My Pixel Games</h3>
+        <p>My first 2D pixel game made with Godot — in active dev…</p>
+        <span class="tag">Godot</span><span class="tag">Pixel</span>
       </a>
-      <a class="proj" href="https://github.com/你的用户名/仓库2">
-        <h3>📺 游戏库启动器</h3>
-        <p>基于 Python 的局域网游戏库 Web 启动器。</p>
-        <span class="tag">Python</span><span class="tag">工具</span>
+      <a class="proj" href="https://github.com/your-name/your-repo" data-sfx="sub">
+        <h3>📺 Game Library Launcher</h3>
+        <p>LAN-based web launcher for retro game libraries, Python-built.</p>
+        <span class="tag">Python</span><span class="tag">Tools</span>
       </a>
-      <a class="proj" href="https://lospec.com/">
-        <h3>🎨 调色板收藏</h3>
-        <p>做像素画时常用的复古调色板资源。</p>
-        <span class="tag">素材</span>
+      <a class="proj" href="https://lospec.com/" data-sfx="sub">
+        <h3>🎨 Palette Collection</h3>
+        <p>Retro palettes I reach for when drawing pixel art.</p>
+        <span class="tag">Assets</span>
       </a>
     </div>
   </section>
 
   <section class="card">
-    <h2 class="px">▸ CONTACT</h2>
+    <h2 class="px" data-sfx="main">▸ CONTACT</h2>
     <p>
-      GitHub：<a href="https://github.com/你的用户名">@你的用户名</a><br>
-      B站：<a href="#">我的主页</a>
+      GitHub: <a href="https://github.com/your-name">@your-name</a><br>
+      Bilibili: <a href="#">My Channel</a>
     </p>
   </section>
 
@@ -92,5 +108,108 @@ footer{text-align:center;padding:30px 0;color:#556;font-size:13px}
   </footer>
 
 </div>
+
+<!-- 背景层 DOM -->
+<div class="bg-layer"></div>
+
+<!-- ============音频资源（autoplay 让浏览器直接尝试有声播放，被拦截则首次点击解锁） ============ -->
+<audio id="bgm" loop preload="auto" autoplay>
+  <source src="Assets/Music/as-the-dark-wave-swells.mp3" type="audio/mpeg">
+</audio>
+<audio id="sfx-main" preload="auto">
+  <source src="Assets/ButtonSound/Pixel UI SFX MainButton.m4a" type="audio/mp4">
+</audio>
+<audio id="sfx-sub" preload="auto">
+  <source src="Assets/ButtonSound/Pixel UI SFX SubButton.m4a" type="audio/mp4">
+</audio>
+
+<script>
+(function(){
+  const bgm = document.getElementById('bgm');
+  const sfxMain = document.getElementById('sfx-main');
+  const sfxSub = document.getElementById('sfx-sub');
+  const toggle = document.getElementById('music-toggle');
+  const volSlider = document.getElementById('vol-slider');
+  let audioUnlocked = false;
+
+  //==== 音量持久化（localStorage）====
+  const savedVol = localStorage.getItem('bgm-volume');
+  if (savedVol !== null){
+    const v = parseInt(savedVol,10);
+    volSlider.value = v;
+    bgm.volume = v / 100;
+  } else {
+    bgm.volume = 0.8;
+  }
+  volSlider.addEventListener('input', function(){
+    const v = parseInt(this.value,10);
+    bgm.volume = v / 100;
+    localStorage.setItem('bgm-volume', v);
+  });
+
+  //==== 浏览器自动播放兜底：被拦截则首次点击解锁 ====
+  function unlockAudio(){
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    bgm.muted = false;
+    bgm.play().catch(()=>{});
+  }
+  document.addEventListener('click', unlockAudio, {once:false});
+
+  //==== 通用音效触发（data-sfx="main" / "sub"）====
+  document.addEventListener('click', function(e){
+    const el = e.target.closest('[data-sfx]');
+    if (!el) return;
+    const sfx = el.dataset.sfx === 'main' ? sfxMain : sfxSub;
+    sfx.currentTime = 0;
+    sfx.play().catch(()=>{});
+  });
+
+  //==== 音乐开关按钮 ====
+  toggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    if (bgm.paused){
+      bgm.play().catch(()=>{});
+      toggle.textContent = '🔊 ON';
+    } else {
+      bgm.pause();
+      toggle.textContent = '🔇 OFF';
+    }
+  });
+
+  //==== 页面加载即尝试有声自动播 ====
+  bgm.play().then(()=>{
+    audioUnlocked = true;
+  }).catch(()=>{
+    // 被浏览器策略拦截 —— 等用户首次点击 unlockAudio
+  });
+
+  //==== 背景滚动：动态加载 tile 尺寸 + rAF 驱动无缝循环（还原 gdshader）====
+  const bgLayer = document.querySelector('.bg-layer');
+  const tileImg = new Image();
+  tileImg.onload = function(){
+    const tileW = tileImg.width;
+    const tileH = tileImg.height;
+    const SPEED = 5; // 和 gdshader 的 uniform float speed = 0.5 一致
+    let x = 0, y = 0, last = performance.now();
+
+    function tick(now){
+      const dt = (now - last) / 1000; // 秒
+      last = now;
+      // UV.x -= speed*TIME → 视觉背景向左 (x 减小)
+      // UV.y += speed*TIME → 视觉背景向下 (y 增大)
+      x -= SPEED * dt;
+      y += SPEED * dt;
+      // 取模：永远不会越界，天然无缝（tile 尺寸精确匹配）
+      x = ((x % tileW) + tileW) % tileW;
+      y = ((y % tileH) + tileH) % tileH;
+      bgLayer.style.backgroundPosition = x + 'px ' + y + 'px';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  };
+  tileImg.src = 'Assets/BackGround/background_tiled.png';
+})();
+</script>
 </body>
 </html>

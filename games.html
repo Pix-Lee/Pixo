@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GAMES | MY PIXEL WORLD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+/* ====== 背景层（和 index.html 完全一致） ====== */
+.bg-layer{
+  position:fixed;inset:0;
+  z-index:-1;pointer-events:none;
+  background-image:url('./Assets/BackGround/background_tiled.png');
+  background-repeat:repeat;
+  image-rendering:pixelated;
+}
+body{
+  background:#1a1a2e90;
+  color:#eee;font-family:"ZCOOL KuaiLe","Microsoft YaHei",sans-serif;line-height:1.8;
+  min-height:100vh;
+}
+.wrap{max-width:960px;margin:0 auto;padding:40px 20px;position:relative;z-index:1}
+.px{font-family:"Press Start 2P",monospace}
+/* ====== 顶部导航 ====== */
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 0 30px}
+header h1{font-size:18px;color:#ffd93d;text-shadow:3px 3px 0 #b1060f}
+.back{color:#4cc9f0;text-decoration:none;font-size:12px;border:2px solid #0f3460;padding:10px 18px;image-rendering:pixelated}
+.back:hover{border-color:#ffd93d;color:#ffd93d;transition:all .2s}
+/* ====== 游戏网格 ====== */
+.section-title{font-size:12px;color:#8ac926;margin:20px 0 16px}
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px}
+.game-card{
+  background:#16213e;border:4px solid #0f3460;
+  padding:0;cursor:pointer;text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+  transition:border-color .2s, transform .2s;
+  backdrop-filter:blur(2px);
+}
+.game-card:hover{border-color:#ffd93d;transform:translateY(-4px)}
+.game-cover{
+  width:100%;aspect-ratio:16/9;background:#0f0f1a;
+  image-rendering:pixelated;object-fit:contain;
+  border-bottom:3px solid #0f3460;
+}
+.game-info{padding:16px 18px;flex:1}
+.game-info h3{font-size:14px;color:#ffd93d;margin-bottom:6px}
+.game-info p{font-size:13px;color:#aab;margin-bottom:10px;line-height:1.5}
+.game-info .tag{display:inline-block;background:#0f3460;color:#ffd93d;font-size:11px;padding:3px 8px;margin:2px 3px 2px 0;border:2px solid #1a1a2e}
+.status{color:#8ac926;font-size:12px;margin-top:auto}
+/* ====== 空状态（将来加更多游戏时用） ====== */
+.empty{text-align:center;padding:60px 20px;color:#556}
+.empty .px{font-size:12px;color:#e94560}
+@media(max-width:600px){.game-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1 class="px">▸ GAMES</h1>
+    <a class="back px" href="index.html" data-sfx="main">← BACK</a>
+  </header>
+
+  <p class="px section-title">▶ AVAILABLE NOW</p>
+
+  <div class="game-grid">
+    <!-- CrossStreet 游戏卡片 -->
+    <a class="game-card" href="crossstreet/CrossStreet.html" data-sfx="sub">
+      <img class="game-cover" src="crossstreet/CrossStreet.png" alt="Cross Street cover">
+      <div class="game-info">
+        <h3>🐸 Cross Street</h3>
+        <p>A Frogger-inspired retro pixel game. Hop across busy streets and make it home!</p>
+        <span class="tag">Godot</span>
+        <span class="tag">2D</span>
+        <span class="tag">Pixel</span>
+        <span class="tag status">● PLAYABLE</span>
+      </div>
+    </a>
+
+    <!-- 占位槽（将来加游戏时复制这个块） -->
+    <div class="empty game-card" style="cursor:default;background:transparent;border-style:dashed">
+      <p class="px" style="padding:40px 20px">MORE COMING SOON…</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- 背景层 DOM -->
+<div class="bg-layer"></div>
+
+<!-- ====== 音频资源（和 index.html 共用一套，路径相对当前页面） ====== -->
+<audio id="bgm" loop preload="auto" autoplay>
+  <source src="Assets/Music/as-the-dark-wave-swells.mp3" type="audio/mpeg">
+</audio>
+<audio id="sfx-main" preload="auto">
+  <source src="Assets/ButtonSound/Pixel UI SFX MainButton.m4a" type="audio/mp4">
+</audio>
+<audio id="sfx-sub" preload="auto">
+  <source src="Assets/ButtonSound/Pixel UI SFX SubButton.m4a" type="audio/mp4">
+</audio>
+
+<script>
+(function(){
+  const bgm = document.getElementById('bgm');
+  const sfxMain = document.getElementById('sfx-main');
+  const sfxSub = document.getElementById('sfx-sub');
+  let audioUnlocked = false;
+
+  // 音量持久化（和 index.html 共享同一个 localStorage key）
+  const savedVol = localStorage.getItem('bgm-volume');
+  bgm.volume = savedVol !== null ? parseInt(savedVol,10)/100 : 0.8;
+
+  function unlockAudio(){
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    bgm.muted = false; bgm.play().catch(()=>{});
+  }
+
+  // 音效触发
+  document.addEventListener('click', function(e){
+    unlockAudio();
+    const el = e.target.closest('[data-sfx]');
+    if (!el) return;
+    const sfx = el.dataset.sfx === 'main' ? sfxMain : sfxSub;
+    sfx.currentTime = 0; sfx.play().catch(()=>{});
+  });
+
+  // 有声自动播 + 兜底
+  bgm.play().then(()=>{audioUnlocked=true}).catch(()=>{});
+
+  // ====== 背景滚动（rAF + tile 精确取模，和 index.html 完全一致） ======
+  const bgLayer = document.querySelector('.bg-layer');
+  const tileImg = new Image();
+  tileImg.onload = function(){
+    const tileW = tileImg.width, tileH = tileImg.height;
+    const SPEED = 0.5;
+    let x = 0, y = 0, last = performance.now();
+    function tick(now){
+      const dt = (now - last) / 1000;
+      last = now;
+      x -= SPEED * dt; y += SPEED * dt;
+      x = ((x % tileW) + tileW) % tileW;
+      y = ((y % tileH) + tileH) % tileH;
+      bgLayer.style.backgroundPosition = x + 'px ' + y + 'px';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  };
+  tileImg.src = 'Assets/BackGround/background_tiled.png';
+})();
+</script>
+</body>
+</html>
